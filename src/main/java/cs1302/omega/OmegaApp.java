@@ -93,6 +93,7 @@ public class OmegaApp extends Application {
         Canvas canvas = new Canvas(width * cornerSize, height * cornerSize);
         GraphicsContext graphicscontext = canvas.getGraphicsContext2D();
         vbox.getChildren().add(canvas);
+//main timer for the game.
         new AnimationTimer() {
             long endTime = 0;
             public void handle(long time) {
@@ -107,6 +108,7 @@ public class OmegaApp extends Application {
             }
         }.start();
         Scene scene = new Scene(vbox, width * cornerSize, height * cornerSize);
+        //event handler for the game.
         scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
             System.out.println("Key pressed: " + key.getCode());
             if (key.getCode() == KeyCode.UP) {
@@ -161,7 +163,7 @@ public class OmegaApp extends Application {
             snake.get(i).x = snake.get(i - 1).x;
             snake.get(i).y = snake.get(i - 1).y;
         }
-
+        //preforms action called by the player.
         switch (direction) {
         case up:
             snake.get(0).y--;
