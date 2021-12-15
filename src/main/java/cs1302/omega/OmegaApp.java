@@ -73,7 +73,6 @@ public class OmegaApp extends Application {
      */
     public OmegaApp() {
         //    new OmegaApp();
-
     }
 
     /** {@inheritDoc} */
@@ -108,7 +107,6 @@ public class OmegaApp extends Application {
                 }
             }
         }.start();
-
         Scene scene = new Scene(vbox, width * cornerSize, height * cornerSize);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
             System.out.println("Key pressed: " + key.getCode());
@@ -125,13 +123,21 @@ public class OmegaApp extends Application {
                 direction = Dir.right;
             }
             else if (key.getCode() == KeyCode.SPACE) {
-                restartGame(graphicscontext);
+                System.out.println("reset was intiated");
+                restartGame();
+                System.out.println("game was resret");
+                stage.close();
+                Platform.runLater(() -> new OmegaApp().start(new Stage()));
             }
         });
         for (int i = 0; i < 3; i++) {
             snake.add(new Corner(width / 2, height / 2));
         }
         // setup stage
+        createStage(stage, scene);
+    }
+
+    public static void createStage(Stage stage, Scene scene) {
         stage.setTitle("OmegaApp!");
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> Platform.exit());
@@ -139,9 +145,8 @@ public class OmegaApp extends Application {
         stage.show();
     }
 
-    public static void restartGame(GraphicsContext graphicscontext) {
-        System.out.println("reset was done");
-        graphicscontext.clearRect(0, 0, width * cornerSize, height * cornerSize);
+
+    public static void restartGame() {
         gameOver = false;
         speed = 6;
         List<Corner> snakes = new ArrayList<>();

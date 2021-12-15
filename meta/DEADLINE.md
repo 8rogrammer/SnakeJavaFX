@@ -7,6 +7,8 @@ Markdown is transformed into nice looking HTML.
 
 ## Part 1: App Description
 
+    The game that I decided to build was snake. The main controls on the game are the different arrows on the keyboard
+    and the spacebar to restart the game.
 > Please provide a firendly description of your app, including the app
 > category that you chose, and the primary functions available to users
 > of the app.
@@ -15,6 +17,8 @@ TODO WRITE / REPLACE
 
 ## Part 2: New
 
+    While working on this project I learned more about javafx and threads and using a timer.
+    I also learned how to accept inputs from the keyboard for the game.
 > What is something new and/or exciting that you learned from working
 > on this project?
 
