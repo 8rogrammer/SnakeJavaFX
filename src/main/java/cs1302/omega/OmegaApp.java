@@ -84,6 +84,8 @@ public class OmegaApp extends Application {
 
     /**
      * creates the game and passes the user's inputs.
+     *
+     * @param stage
      */
     public void startGame(Stage stage) {
         food();
@@ -95,13 +97,13 @@ public class OmegaApp extends Application {
             long endTime = 0;
             public void handle(long time) {
                 if (endTime == 0) {
-                  endTime = 	time;
-                timer(graphicscontext);
-                    	}
-            if (time - endTime > 1000000000 / speed) {
-                  endTime = time;
-                  timer(graphicscontext);
-              }
+                    endTime = time;
+                    timer(graphicscontext);
+                }
+                if (time - endTime > 1000000000 / speed) {
+                    endTime = time;
+                    timer(graphicscontext);
+                }
             }
         }.start();
         Scene scene = new Scene(vbox, width * cornerSize, height * cornerSize);
@@ -109,17 +111,13 @@ public class OmegaApp extends Application {
             System.out.println("Key pressed: " + key.getCode());
             if (key.getCode() == KeyCode.UP) {
                 direction = Dir.up;
-            }
-            else if (key.getCode() == KeyCode.LEFT) {
+            } else if (key.getCode() == KeyCode.LEFT) {
                 direction = Dir.left;
-            }
-            else if (key.getCode() == KeyCode.DOWN) {
+            } else if (key.getCode() == KeyCode.DOWN) {
                 direction = Dir.down;
-            }
-            else  if (key.getCode() == KeyCode.RIGHT) {
+            } else if (key.getCode() == KeyCode.RIGHT) {
                 direction = Dir.right;
-            }
-            else if (key.getCode() == KeyCode.SPACE) {
+            } else if (key.getCode() == KeyCode.SPACE) {
                 stage.close();
                 Platform.runLater(() -> new OmegaApp().start(new Stage()));
             }
@@ -131,8 +129,14 @@ public class OmegaApp extends Application {
         createStage(stage, scene);
     }
 
+    /**
+     * creates a stage for the game.
+     *
+     * @param stage
+     * @param scene
+     */
     public void createStage(Stage stage, Scene scene) {
-        stage.setTitle("OmegaApp!");
+        stage.setTitle("Snake!");
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> Platform.exit());
         stage.sizeToScene();
@@ -145,7 +149,6 @@ public class OmegaApp extends Application {
      * @param graphicscontext
      */
     public void timer(GraphicsContext graphicscontext) {
-        System.out.println("timer is being called @ " + new Date());
         if (gameOver) {
             graphicscontext.setFill(Color.BLUE);
             graphicscontext.setFont(new Font("", 50));
@@ -203,6 +206,7 @@ public class OmegaApp extends Application {
         graphicscontext.setFill(Color.BLACK);
         graphicscontext.setFont(new Font("", 25));
         graphicscontext.fillText("Score: " + (speed - 6), 15, 45);
+        graphicscontext.fillText("Use the arrows to play", 35, 65);
         graphicscontext.setFill(Color.RED);
         int xBoard = xFood * cornerSize;
         int yBoard = yFood * cornerSize;
@@ -264,12 +268,12 @@ public class OmegaApp extends Application {
      * Randomly places food as the snake eats it.
      */
     public void food() {
-    start : while (true) {
+        while (true) {
             xFood = rand.nextInt(width);
             yFood = rand.nextInt(height);
             for (Corner c : snake) {
                 if (c.x == xFood && c.y == yFood) {
-                    continue start;
+                    continue;
                 }
             }
             speed++;
