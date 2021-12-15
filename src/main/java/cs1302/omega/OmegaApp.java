@@ -27,24 +27,24 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class OmegaApp extends Application {
 
-    static boolean gameOver = false;
-    static Dir direction = Dir.left;
-    static Random rand = new Random();
-    static int speed = 5;
-    static int width = 20;
-    static int height = 20;
-    static int xFood = 0;
-    static int yFood = 0;
-    static long endTime = 0;
-    static int cornerSize = 25;
-    static List<Corner> snake = new ArrayList<>();
-    static int i = 0;
+    boolean gameOver = false;
+    Dir direction = Dir.left;
+    Random rand = new Random();
+    int speed = 5;
+    int width = 20;
+    int height = 20;
+    int xFood = 0;
+    int yFood = 0;
+    long endTime = 0;
+    int cornerSize = 25;
+    List<Corner> snake = new ArrayList<>();
+
 
     /**
      * The directions that a player can move.
      */
     public enum Dir {
-        left, right, up, down, space
+        left, right, up, down
     }
 
     /**
@@ -71,9 +71,7 @@ public class OmegaApp extends Application {
      * Constructs an {@code OmegaApp} object. This default (i.e., no argument)
      * constructor is executed in Step 2 of the JavaFX Application Life-Cycle.
      */
-    public OmegaApp() {
-        //    new OmegaApp();
-    }
+    public OmegaApp() {}
 
     /** {@inheritDoc} */
     @Override
@@ -97,14 +95,14 @@ public class OmegaApp extends Application {
         new AnimationTimer() {
             long endTime = 0;
             public void handle(long time) {
-                if (endTime == 0) {
-                    endTime = time;
-                    timer(graphicscontext);
-                }
-                if (time - endTime > 100000000 / speed) {
-                    endTime = time;
-                    timer(graphicscontext);
-                }
+                //        if (endTime == 0) {
+                //  endTime = time;
+                timer(graphicscontext);
+                    // }
+            // if (time - endTime > 100000000 / speed) {
+            //      endTime = time;
+            //      timer(graphicscontext);
+            //  }
             }
         }.start();
         Scene scene = new Scene(vbox, width * cornerSize, height * cornerSize);
@@ -123,9 +121,6 @@ public class OmegaApp extends Application {
                 direction = Dir.right;
             }
             else if (key.getCode() == KeyCode.SPACE) {
-                System.out.println("reset was intiated");
-                restartGame();
-                System.out.println("game was resret");
                 stage.close();
                 Platform.runLater(() -> new OmegaApp().start(new Stage()));
             }
@@ -137,7 +132,7 @@ public class OmegaApp extends Application {
         createStage(stage, scene);
     }
 
-    public static void createStage(Stage stage, Scene scene) {
+    public void createStage(Stage stage, Scene scene) {
         stage.setTitle("OmegaApp!");
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> Platform.exit());
@@ -145,26 +140,12 @@ public class OmegaApp extends Application {
         stage.show();
     }
 
-
-    public static void restartGame() {
-        gameOver = false;
-        speed = 6;
-        List<Corner> snakes = new ArrayList<>();
-        snake = snakes;
-        snake.get(0).x = 10;
-        snake.get(0).y = 10;
-        for (int i = 0; i < 3; i++) {
-            snake.add(new Corner(width / 2, height / 2));
-        }
-
-    }
-
     /**
      * serves as the main game, preforms various actions to allow for content of game to work.
      *
      * @param graphicscontext
      */
-    public static void timer(GraphicsContext graphicscontext) {
+    public void timer(GraphicsContext graphicscontext) {
         System.out.println("timer is being called @ " + new Date());
         if (gameOver) {
             graphicscontext.setFill(Color.BLUE);
@@ -217,7 +198,7 @@ public class OmegaApp extends Application {
      *
      * @param graphicscontext
      */
-    public static void createBoard(GraphicsContext graphicscontext) {
+    public void createBoard(GraphicsContext graphicscontext) {
         graphicscontext.setFill(Color.LIGHTBLUE);
         graphicscontext.fillRect(0, 0, width * cornerSize, height * cornerSize);
         graphicscontext.setFill(Color.BLACK);
@@ -232,7 +213,7 @@ public class OmegaApp extends Application {
     /**
      * Allows for the snake to eat.
      */
-    public static void eatFood() {
+    public void eatFood() {
         if (xFood == snake.get(0).x && yFood == snake.get(0).y) {
             snake.add(new Corner(-1, -1));
             food();
@@ -244,7 +225,7 @@ public class OmegaApp extends Application {
      *
      * @param graphicscontext
      */
-    public static void gameOver(GraphicsContext graphicscontext) {
+    public void gameOver(GraphicsContext graphicscontext) {
         if (gameOver) {
             graphicscontext.setFill(Color.BLUE);
             graphicscontext.setFont(new Font("", 50));
@@ -258,7 +239,7 @@ public class OmegaApp extends Application {
     /**
      * If the snake runs into itself the snake dies.
      */
-    public static void dead() {
+    public void dead() {
         for (int i = 1; i < snake.size(); i++) {
             if (snake.get(0).x == snake.get(i).x && snake.get(0).y == snake.get(i).y) {
                 gameOver = true;
@@ -271,7 +252,7 @@ public class OmegaApp extends Application {
      *
      * @param graphicscontext
      */
-    public static void snake(GraphicsContext graphicscontext) {
+    public void snake(GraphicsContext graphicscontext) {
         for (Corner c : snake) {
             graphicscontext.setFill(Color.GREEN);
             int xSnake = c.x * cornerSize;
@@ -283,7 +264,7 @@ public class OmegaApp extends Application {
     /**
      * Randomly places food as the snake eats it.
      */
-    public static void food() {
+    public void food() {
     start : while (true) {
             xFood = rand.nextInt(width);
             yFood = rand.nextInt(height);
